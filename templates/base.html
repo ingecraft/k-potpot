@@ -8,7 +8,7 @@
 
    http://jinja.pocoo.org/docs/templates/#template-inheritance
 #}
-{%- extends "bootstrap/base.html" %}
+{% extends "bootstrap/base.html" %}
 
 {# We also set a default title, usually because we might forget to set one.
    In our sample app, we will most likely just opt not to change it #}
@@ -23,24 +23,24 @@
 {% block head %}
 {{super()}}
 
-{#- Docs: http://pythonhosted.org/Flask-Bootstrap/macros.html#fixes
+{# Docs: http://pythonhosted.org/Flask-Bootstrap/macros.html#fixes
    The sample application already contains the required static files. #}
 {{fixes.ie8()}}
-{%- endblock %}
+{% endblock %}
 
 {# Adding our own CSS files is also done here. Check the documentation at
    http://pythonhosted.org/Flask-Bootstrap/basic-usage.html#available-blocks
    for an overview. #}
-{% block styles -%}
+{% block styles %}
     {{super()}}  {# do not forget to call super or Bootstrap's own stylesheets
                     will disappear! #}
     <link rel="stylesheet" href="{{url_for('static', filename='sample-app.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
-    <<link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
-    <link rel="stylesheet" href="{{url_for('static', filename=feaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='app.css')}}">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='feaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='app.css')}}">
 {% endblock %}
 
 {# Finally, round things out with navigation #}
