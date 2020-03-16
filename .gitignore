@@ -57,3 +57,6 @@ docs/_build/
 # Vim swap files
 *.swp
 *.swo
+
+# Custom
+next-steps.txt
