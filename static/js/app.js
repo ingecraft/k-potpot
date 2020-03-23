@@ -1,11 +1,23 @@
-var mapboxAccessToken =  'pk.eyJ1Ijoic3Bpa2UtaCIsImEiOiJjazd4cWVpYmkwMDAyM2ZvMXdnMjFlbmkwIn0.0TxyqnvQ0dSs8-fjCLLEQg'
-var map = L.map('map').setView([37.8, -96], 4);
+var countries = $.ajax({
+          url:"https://s3.amazonaws.com/rawstore.datahub.io/23f420f929e0e09c39d916b8aaa166fb.geojson",
+          dataType: "json",
+          success: console.log("Country polygons data successfully loaded."),
+          error: function (xhr) {
+            alert(xhr.statusText)
+          }
+        })
 
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
-    id: 'mapbox/light-v9',
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18, 
-    tileSize: 512,
-    zoomOffset: -1
-}).addTo(map);
+$.when(countries).done(function() {
+	var mapboxAccessToken =  'pk.eyJ1Ijoic3Bpa2UtaCIsImEiOiJjazd4cWVpYmkwMDAyM2ZvMXdnMjFlbmkwIn0.0TxyqnvQ0dSs8-fjCLLEQg'
+	var map = L.map('map').setView([37.8, -96], 4);
 
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
+    	id: 'mapbox/light-v9',
+    	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    	maxZoom: 18, 
+    	tileSize: 512,
+    	zoomOffset: -1
+	}).addTo(map);
+
+	L.geoJson(countries.responseJSON).addTo(map)
+});

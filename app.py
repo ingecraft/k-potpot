@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 from marshmallow import Schema, fields, ValidationError, pre_load
 
 from covid import Covid
@@ -58,6 +59,15 @@ def get_countries():
     countries =  Country.query.all()
     result = countries_schema.dump(countries)
     return {"countries": result}
+
+@app.route("/countries/<name>")
+def get_country(name):
+    try:
+        country = Country.query.filter_by(name=name).first()
+    except IntegrityError:
+        return {"message": "Country could not be found."}, 400
+    country_result = country_schema.dump(country)
+    return {"country": country_result}
 
 if __name__ == '__main__':
     app.run()
