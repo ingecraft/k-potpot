@@ -2,15 +2,26 @@ function getColor(metric) {
     return metric > 1000 ? '#800026' :
            metric > 500  ? '#BD0026' :
            metric > 200  ? '#E31A1C' :
-           metric > > 100  ? '#FC4E2A' :
-           metric > > 50   ? '#FD8D3C' :
-           metric > > 20   ? '#FEB24C' :
-           metric > > 10   ? '#FED976' :
+           metric > 100  ? '#FC4E2A' :
+           metric > 50   ? '#FD8D3C' :
+           metric > 20   ? '#FEB24C' :
+           metric > 10   ? '#FED976' :
                       '#FFEDA0';
 }
 
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.deaths),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 var countries = $.ajax({
-          url:"https://api.myjson.com/bins/e6oeg",
+          url:"http://127.0.0.1:5000/covid_data",
           dataType: "json",
           success: console.log("Country polygons data successfully loaded."),
           error: function (xhr) {
