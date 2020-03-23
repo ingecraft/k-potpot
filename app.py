@@ -1,6 +1,7 @@
 import os
+import json
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
@@ -68,6 +69,23 @@ def get_country(name):
         return {"message": "Country could not be found."}, 400
     country_result = country_schema.dump(country)
     return {"country": country_result}
+
+@app.route("/covid_data")
+def get_covid_data():
+    with open('static/countries_polygons.geo.json') as f:
+        geo_data = json.load(f)
+    
+    covid_data = Country.query.all()
+    for country in geo_data['features']:
+        for covid_country in covid_data:
+            if country['properties']['sovereignt'] == covid_country.name:
+                country['properties']['deaths'] = covid_country.deaths
+                country['properties']['active'] = covid_country.active
+                country['properties']['confirmed'] = covid_country.confirmed
+                country['properties']['recovered'] = covid_country.recovered
+    
+    return json.dumps(geo_data)
+
 
 if __name__ == '__main__':
     app.run()

@@ -1,5 +1,16 @@
+function getColor(metric) {
+    return metric > 1000 ? '#800026' :
+           metric > 500  ? '#BD0026' :
+           metric > 200  ? '#E31A1C' :
+           metric > > 100  ? '#FC4E2A' :
+           metric > > 50   ? '#FD8D3C' :
+           metric > > 20   ? '#FEB24C' :
+           metric > > 10   ? '#FED976' :
+                      '#FFEDA0';
+}
+
 var countries = $.ajax({
-          url:"https://s3.amazonaws.com/rawstore.datahub.io/23f420f929e0e09c39d916b8aaa166fb.geojson",
+          url:"https://api.myjson.com/bins/e6oeg",
           dataType: "json",
           success: console.log("Country polygons data successfully loaded."),
           error: function (xhr) {
