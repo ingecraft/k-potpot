@@ -78,7 +78,7 @@ def get_covid_data():
     covid_data = Country.query.all()
     for country in geo_data['features']:
         for covid_country in covid_data:
-            if country['properties']['sovereignt'] == covid_country.name:
+            if country['properties']['name'] == covid_country.name:
                 country['properties']['deaths'] = covid_country.deaths
                 country['properties']['active'] = covid_country.active
                 country['properties']['confirmed'] = covid_country.confirmed
