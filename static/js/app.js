@@ -1,3 +1,8 @@
+
+var mapboxAccessToken =  'pk.eyJ1Ijoic3Bpa2UtaCIsImEiOiJjazd4cWVpYmkwMDAyM2ZvMXdnMjFlbmkwIn0.0TxyqnvQ0dSs8-fjCLLEQg'
+var map = L.map('map').setView([37.8, -96], 4);
+
+
 function getColor(metric) {
     return metric > 1000 ? '#800026' :
            metric > 500  ? '#BD0026' :
@@ -21,7 +26,7 @@ function style(feature) {
 }
 
 var countries = $.ajax({
-          url:"http://127.0.0.1:5000/covid_data",
+	url:"http://127.0.0.1:5000/covid_data",
           dataType: "json",
           success: console.log("Country polygons data successfully loaded."),
           error: function (xhr) {
@@ -29,10 +34,8 @@ var countries = $.ajax({
           }
         })
 
-$.when(countries).done(function() {
-	var mapboxAccessToken =  'pk.eyJ1Ijoic3Bpa2UtaCIsImEiOiJjazd4cWVpYmkwMDAyM2ZvMXdnMjFlbmkwIn0.0TxyqnvQ0dSs8-fjCLLEQg'
-	var map = L.map('map').setView([37.8, -96], 4);
 
+$.when(countries).done(function() {
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
     	id: 'mapbox/light-v9',
     	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -42,4 +45,11 @@ $.when(countries).done(function() {
 	}).addTo(map);
 
 	L.geoJson(countries.responseJSON).addTo(map)
+
+
+	geojson = L.geoJson(countries.responseJSON, {
+		style: style,
+	}).addTo(map);
+
+	
 });
